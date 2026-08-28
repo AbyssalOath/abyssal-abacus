@@ -77,7 +77,7 @@ chmod +x abyssal-abacus-cli
 ./calc
 ```
 
-**GUI** - download `AbyssalAbacus-macos.dmg`, open it, and drag **Abyssal Abacus** into Applications, then double-click it to launch. Since it isn't notarized by Apple, the first launch will show an "unidentified developer" warning - right-click the app and choose **Open** once to bypass it; after that it opens normally.
+**GUI** - download `abyssal-abacus-macos.dmg`, open it, and drag **Abyssal Abacus** into Applications, then double-click it to launch. Since it isn't notarized by Apple, the first launch will show an "unidentified developer" warning - right-click the app and choose **Open** once to bypass it; after that it opens normally.
 
 ## Usage (CLI)
 
@@ -186,7 +186,7 @@ Clone the repository:
 
 ```
 git clone https://github.com/LordSodomiser/abyssal-abacus.git
-cd Abyssal-Abacus
+cd abyssal-abacus
 ```
 
 Run the shared logic's test suite:
@@ -219,21 +219,21 @@ Run them directly:
 ## Project Structure
 
 ```
-Abyssal-Abacus/
+abyssal-abacus/
 ├── Cargo.toml              <- workspace root
 ├── README.md
 ├── .github/
 │   └── workflows/
 │       └── release.yml     <- builds & publishes Linux/macOS/Windows releases
-├── abyssal\_abacus_core/                <- shared math + calculator state, no UI code
+├── abyssal_abacus_core/                <- shared math + calculator state, no UI code
 │   ├── Cargo.toml
 │   └── src/
 │       └── lib.rs
-├── abyssal\_abacus_cli/                  <- command-line front end
+├── abyssal_abacus_cli/                  <- command-line front end
 │   ├── Cargo.toml
 │   └── src/
 │       └── main.rs 
-└── abyssal\_abacus_gui/                   <- retro GUI front end (egui/eframe)
+└── abyssal_abacus_gui/                   <- retro GUI front end (egui/eframe)
     ├── Cargo.toml
     └── src/
         └── main.rs
