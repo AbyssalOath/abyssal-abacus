@@ -1,0 +1,136 @@
+name: Release
+
+# Push a tag like `v1.0.0` to trigger this:
+#   git tag v1.0.0
+#   git push origin v1.0.0
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Install GUI build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libxkbcommon-dev libx11-dev libgl1-mesa-dev libxcb1-dev
+
+      - name: Build
+        run: |
+          cargo build --release -p abyssal_abacus_cli
+          cargo build --release -p abyssal_abacus_gui
+
+      - name: Package CLI
+        run: |
+          mkdir -p dist/cli
+          cp target/release/abyssal_abacus_cli dist/cli/calc
+          chmod +x dist/cli/calc
+          tar -cJf abyssal-abacus-cli-linux-x86_64.tar.xz -C dist/cli calc
+
+      - name: Package GUI
+        run: |
+          mkdir -p dist/gui
+          cp target/release/abyssal_abacus_gui dist/gui/abyssal-abacus
+          chmod +x dist/gui/abyssal-abacus
+          tar -cJf abyssal-abacus-linux-x86_64.tar.xz -C dist/gui abyssal-abacus
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            abyssal-abacus-cli-linux-x86_64.tar.xz
+            abyssal-abacus-linux-x86_64.tar.xz
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Build
+        run: |
+          cargo build --release -p abyssal_abacus_cli
+          cargo build --release -p abyssal_abacus_gui
+
+      - name: Package
+        shell: pwsh
+        run: |
+          Compress-Archive -Path target/release/abyssal_abacus_cli.exe -DestinationPath abyssal-abacus-cli-windows-x86_64.zip
+          Compress-Archive -Path target/release/abyssal_abacus_gui.exe -DestinationPath abyssal-abacus-windows-x86_64.zip
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            abyssal-abacus-cli-windows-x86_64.zip
+            abyssal-abacus-windows-x86_64.zip
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Build
+        run: |
+          cargo build --release -p abyssal_abacus_cli
+          cargo build --release -p abyssal_abacus_gui
+
+      - name: Package CLI
+        run: |
+          mkdir -p dist/cli
+          cp target/release/abyssal_abacus_cli dist/cli/calc
+          chmod +x dist/cli/calc
+          tar -czf abyssal-abacus-cli-macos-x86_64.tar.gz -C dist/cli calc
+
+      - name: Assemble .app bundle
+        run: |
+          APP=dist/AbyssalAbacus.app
+          mkdir -p "$APP/Contents/MacOS"
+          mkdir -p "$APP/Contents/Resources"
+          cp target/release/abyssal_abacus_gui "$APP/Contents/MacOS/abyssal-abacus"
+          chmod +x "$APP/Contents/MacOS/abyssal-abacus"
+          cat > "$APP/Contents/Info.plist" << 'PLIST'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>CFBundleName</key>
+            <string>Abyssal Abacus</string>
+            <key>CFBundleExecutable</key>
+            <string>abyssal-abacus</string>
+            <key>CFBundleIdentifier</key>
+            <string>com.lordsodomiser.abyssalabacus</string>
+            <key>CFBundleVersion</key>
+            <string>1.0.0</string>
+            <key>CFBundleShortVersionString</key>
+            <string>1.0.0</string>
+            <key>CFBundlePackageType</key>
+            <string>APPL</string>
+            <key>NSHighResolutionCapable</key>
+            <true/>
+          </dict>
+          </plist>
+          PLIST
+
+      - name: Create .dmg
+        run: |
+          mkdir -p dist/dmg
+          cp -R dist/AbyssalAbacus.app dist/dmg/
+          hdiutil create -volname "Abyssal Abacus" -srcfolder dist/dmg -ov -format UDZO AbyssalAbacus-macos.dmg
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            abyssal-abacus-cli-macos-x86_64.tar.gz
+            AbyssalAbacus-macos.dmg

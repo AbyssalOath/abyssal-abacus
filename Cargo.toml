@@ -1,0 +1,7 @@
+[workspace]
+resolver = "2"
+members = [
+    "abyssal_abacus_core",
+    "abyssal_abacus_cli",
+    "abyssal_abacus_gui",
+]

@@ -1,0 +1,13 @@
+[package]
+name = "abyssal_abacus_gui"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "abyssal_abacus_gui"
+path = "src/main.rs"
+
+[dependencies]
+abyssal_abacus_core = { path = "../abyssal_abacus_core" }
+eframe = "0.28"
+egui = "0.28"
