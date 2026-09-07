@@ -32,7 +32,7 @@ Both support addition, subtraction, multiplication, division, and modulo.
 
 ## Download
 
-Pre-built binaries are available on the [Releases](https://github.com/LordSodomiser/abyssal-abacus/releases) page. The CLI and the GUI are packaged separately, so you only need to grab the one you actually want.
+Pre-built binaries are available on the [Releases](https://github.com/AbyssalOath/abyssal-abacus/releases) page. The CLI and the GUI are packaged separately, so you only need to grab the one you actually want.
 
 ### Linux x86-64
 
@@ -185,7 +185,7 @@ Division and modulo by zero don't error - they resolve to `0`:
 Clone the repository:
 
 ```
-git clone https://github.com/LordSodomiser/abyssal-abacus.git
+git clone https://github.com/AbyssalOath/abyssal-abacus.git
 cd abyssal-abacus
 ```
 
