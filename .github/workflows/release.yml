@@ -109,7 +109,7 @@ jobs:
             <key>CFBundleExecutable</key>
             <string>abyssal-abacus</string>
             <key>CFBundleIdentifier</key>
-            <string>com.lordsodomiser.abyssalabacus</string>
+            <string>com.abyssaloath.abyssalabacus</string>
             <key>CFBundleVersion</key>
             <string>1.0.0</string>
             <key>CFBundleShortVersionString</key>
