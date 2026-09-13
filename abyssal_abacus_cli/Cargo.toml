@@ -1,0 +1,11 @@
+[package]
+name = "abyssal_abacus_cli"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "abyssal_abacus_cli"
+path = "src/main.rs"
+
+[dependencies]
+abyssal_abacus_core = { path = "../abyssal_abacus_core" }
