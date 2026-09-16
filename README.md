@@ -216,12 +216,23 @@ Run them directly:
 ./target/release/abyssal_abacus_gui
 ```
 
+## Documentation
+
+- [ARCHITECTURE.md](ARCHITECTURE.md) - how the workspace, shared math engine, and both front ends fit together
+- [CHANGELOG.md](CHANGELOG.md) - notable changes per release
+- [SECURITY.md](SECURITY.md) - supported versions and how to report vulnerabilities
+- [WHAT_TO_TEST.md](WHAT_TO_TEST.md) - manual QA checklist used before tagging a release
+
 ## Project Structure
 
 ```
 abyssal-abacus/
 ├── Cargo.toml              <- workspace root
 ├── README.md
+├── ARCHITECTURE.md
+├── CHANGELOG.md
+├── SECURITY.md
+├── WHAT_TO_TEST.md
 ├── .github/
 │   └── workflows/
 │       └── release.yml     <- builds & publishes Linux/macOS/Windows releases
